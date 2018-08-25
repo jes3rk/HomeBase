@@ -28,6 +28,9 @@ def create_app(test_config=None):
     # initialize the lights
     living_room = LB130("10.0.0.195")
     # a simple page that says hello
+    @app.route('/')
+        # do nothing
+
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
