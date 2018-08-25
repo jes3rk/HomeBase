@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask
-
+from .tplight import LB130
 
 def create_app(test_config=None):
     # create and configure the app
@@ -24,9 +24,18 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+
+    # initialize the lights
+    living_room = LB130("10.0.0.195")
     # a simple page that says hello
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
+
+    @app.route('/on')
+    def on_route():
+        living_room.on()
+        return 'Light ON'
+
 
     return app
