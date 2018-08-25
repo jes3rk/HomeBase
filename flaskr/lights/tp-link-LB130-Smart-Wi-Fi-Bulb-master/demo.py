@@ -51,6 +51,7 @@ def main():
     # set the colour to warm white and the brightness to 0
     light.temperature = 3800
     light.brightness = 0
+    light.off()
 
 if __name__ == "__main__":
     main()

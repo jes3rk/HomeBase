@@ -68,13 +68,14 @@ class LB130(object):
                 col1 = 'system'
                 col2 = 'get_sysinfo'
                 col3 = 'light_state'
-                # print(data[col1][col2][col3]['dft_on_state'])
+                col4 = 'dft_on_state'
+                #print(data[col1][col2][col3]['dft_on_state'])
                 self.__alias = data[col1][col2]['alias']
                 self.__on_off = int(data[col1][col2][col3]['on_off'])
-                self.__hue = int(data[col1][col2][col3]['dft_on_state']['hue'])
-                self.__saturation = int(data[col1][col2][col3]['dft_on_state']['saturation'])
-                self.__brightness = int(data[col1][col2][col3]['dft_on_state']['brightness'])
-                self.__color_temp = int(data[col1][col2][col3]['dft_on_state']['color_temp'])
+                self.__hue = int(data[col1][col2][col3][col4]['hue'])
+                self.__saturation = int(data[col1][col2][col3][col4]['saturation'])
+                self.__brightness = int(data[col1][col2][col3][col4]['brightness'])
+                self.__color_temp = int(data[col1][col2][col3][col4]['color_temp'])
                 self.device_id = str(data[col1][col2]['deviceId'])
             except (RuntimeError, TypeError, ValueError) as exception:
                 raise Exception(exception)
@@ -101,6 +102,11 @@ class LB130(object):
         else:
             raise ValueError('Invalid IPv4 IP address.')
 
+    def __transition(self, trans_string):
+        update_str = "{\"smartlife.iot.smartbulb.lightingservice\":{\"transition_light_state\":{\"transition_period\":" + str(self.__transition_period) + ", " + trans_string + "}}}"
+        print(update_str)
+        self.__update(update_str)
+
     def status(self):
         '''
         Get the connection status from the bulb
@@ -121,19 +127,14 @@ class LB130(object):
         Set the bulb to an on state
         '''
         __bulb_on_off = 1
-        self.__update("{\"smartlife.iot.smartbulb.lightingservice\":{\"\
-                      transition_light_state\":{\"\
-                      transition_period\":" +
-                      str(self.__transition_period) + ",\"on_off\":1}}}")
+        self.__transition("\"on_off\": 1")
 
     def off(self):
         '''
         Set the bulb to an off state
         '''
         __bulb_on_off = 0
-        self.__update("{\"smartlife.iot.smartbulb.lightingservice\":{\"\
-                      transition_light_state\":{\"ignore_default\":1,\"transition_period\"\
-                      :" + str(self.__transition_period) + ",\"on_off\":0}}}")
+        self.__transition("\"on_off\": 0")
 
     def reboot(self):
         '''
@@ -400,7 +401,7 @@ class LB130(object):
         Update the bulbs status
         '''
         enc_message = self.__encrypt(message, self.encryption_key)
-        
+
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             sock.settimeout(5)
