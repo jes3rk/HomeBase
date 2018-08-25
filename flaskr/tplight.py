@@ -104,7 +104,6 @@ class LB130(object):
 
     def __transition(self, trans_string):
         update_str = "{\"smartlife.iot.smartbulb.lightingservice\":{\"transition_light_state\":{\"transition_period\":" + str(self.__transition_period) + ", " + trans_string + "}}}"
-        print(update_str)
         self.__update(update_str)
 
     def status(self):
