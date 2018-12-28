@@ -1,16 +1,9 @@
 const express = require('express');
 const app = express();
 const TPLSmartDevice = require('tplink-lightbulb');
+const ips = require('./ips.js');
 
-
-const scan = TPLSmartDevice.scan()
-  .on('light', light => {
-    light.power(false)
-      .then(status => {
-        console.log(status)
-        scan.stop()
-      })
-  })
+console.log(ips);
 // app.get('/', (req, res) => {
 //   res.send('Hello World');
 // });
