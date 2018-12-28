@@ -20,3 +20,5 @@ class TPLight extends TPLSmartDevice {
 
 
 }
+
+module.exports = TPLight;
