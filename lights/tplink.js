@@ -3,7 +3,6 @@ const hexToHsl = require('hex-to-hsl');
 
 class TPLight extends TPLSmartDevice {
   constructor(ip) {
-    // call the TPLSmartDevice constructor
     super(ip);
     this.state = {
       on_off: null,
