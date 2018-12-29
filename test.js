@@ -6,4 +6,5 @@ const TPLight = require('./lights/tplink.js');
 const livingroom = new TPLight(ips.livingRoom);
 livingroom.turnOn();
 //livingroom.toHSB(150, 100, 50, 2000);
-livingroom.toHex('#64a857')
+//livingroom.toHex('#64a857')
+//livingroom.toRandomColor();

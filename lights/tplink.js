@@ -5,7 +5,15 @@ class TPLight extends TPLSmartDevice {
   constructor(ip) {
     // call the TPLSmartDevice constructor
     super(ip);
-    this.state = {};
+    this.state = {
+      on_off: null,
+      color: {
+        hue: null,
+        sat: null,
+        temp: null,
+        brightness: null
+      }
+    };
     this.info().then(info => {
       this.state = {
         on_off: info.light_state.on_off,
@@ -54,6 +62,18 @@ class TPLight extends TPLSmartDevice {
   toHex(hexStr, trans = 0) {
     const hslArr = hexToHsl(hexStr);
     this.toHSB(hslArr[0], hslArr[1], hslArr[2], trans);
+  }
+
+  toRandomColor(trans = 0) {
+    const hue = this._randomNum(0, 255);
+    const sat = this._randomNum(0, 100);
+    const brightness = this._randomNum(0, 100);
+
+    this.toHSB(hue, sat, brightness, trans);
+  }
+
+  _randomNum(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
   }
 
 }
