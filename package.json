@@ -5,6 +5,7 @@
   "main": "server.js",
   "dependencies": {
     "express": "^4.16.4",
+    "hex-to-hsl": "^1.0.2",
     "tplink-lightbulb": "^1.4.2",
     "tplink-smarthome-api": "^0.23.1"
   },

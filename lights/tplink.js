@@ -1,4 +1,5 @@
 const TPLSmartDevice = require('tplink-lightbulb');
+const hexToHsl = require('hex-to-hsl');
 
 class TPLight extends TPLSmartDevice {
   constructor(ip) {
@@ -30,12 +31,29 @@ class TPLight extends TPLSmartDevice {
     }).catch(e => console.log(e));
   }
 
-  turnOn() {
+  turnOn(trans = 0) {
     this._postCommand({
       'on_off': 1,
-      'transition_period': 0
+      'transition_period': trans
     });
     this.state.on_off = 1
+  }
+
+  toHSB(hue, sat, bright, trans = 0) {
+    this._postCommand({
+      'hue': hue,
+      'saturation': sat,
+      'brightness': bright,
+      'transition_period': trans
+    })
+    this.state.color.hue = hue;
+    this.state.color.sat = sat;
+    this.state.color.brightness = bright
+  }
+
+  toHex(hexStr, trans = 0) {
+    const hslArr = hexToHsl(hexStr);
+    this.toHSB(hslArr[0], hslArr[1], hslArr[2], trans);
   }
 
 }
